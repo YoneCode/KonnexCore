@@ -283,9 +283,15 @@ class SimEngine:
             4,
         )
 
-        # IMU: take linear/angular velocity of the arm's base link.
+        # IMU: take linear/angular velocity of the arm's base link
+        # and synthesize a proper-acceleration reading by adding the
+        # gravity offset (a real IMU at rest reads ~+g along z).
         lin, ang = p.getBaseVelocity(arm_id)
-        accel: tuple[float, float, float] = (float(lin[0]), float(lin[1]), float(lin[2]))
+        accel: tuple[float, float, float] = (
+            float(lin[0]),
+            float(lin[1]),
+            float(lin[2]) + 9.81,
+        )
         gyro: tuple[float, float, float] = (float(ang[0]), float(ang[1]), float(ang[2]))
 
         # Torque: per-joint applied torque from the joint state.
