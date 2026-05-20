@@ -119,6 +119,11 @@ ignore = [
 # honeypot ground-truth synthesis); none of it is security-sensitive.
 # Documented in honeynet/validator_pool.py and roboarm_gen.py.
 "honeynet/**" = ["S311"]
+# FastAPI introspects handler annotations at runtime (Pydantic uses
+# `TypeAdapter` to build schemas), so api/ cannot move imports into
+# TYPE_CHECKING blocks — Request, AppState, etc. must stay at module
+# scope. The TCH rules don't apply.
+"api/**" = ["TCH001", "TCH002", "TCH003"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["core", "rootid", "detverify", "honeynet", "api"]
@@ -198,7 +203,7 @@ ignore_missing_imports = true
 # ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
 minversion = "8.0"
-testpaths = ["core/tests", "rootid/tests", "detverify/tests", "honeynet/tests", "tests"]
+testpaths = ["core/tests", "rootid/tests", "detverify/tests", "honeynet/tests", "api/tests", "tests"]
 addopts = [
     "-ra",
     "--strict-markers",
