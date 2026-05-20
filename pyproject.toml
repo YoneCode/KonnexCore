@@ -61,7 +61,7 @@ extend-exclude = [
 # metascore formula verbatim (S(V_i) = α·C + β·H − γ·P). Suppressing
 # the per-symbol RUF003 noise rather than littering noqa comments
 # preserves spec fidelity (design spec Section 6).
-allowed-confusables = ["α", "β", "γ", "−", "·", "≥", "≤"]
+allowed-confusables = ["α", "β", "γ", "−", "·", "≥", "≤", "×"]
 # Aggressive baseline; targeted ignores below.
 select = [
     "E",      # pycodestyle errors
@@ -112,6 +112,9 @@ ignore = [
     "S105",
     "S106",
 ]
+# pybullet has no type stubs; the integration genuinely cannot type
+# its surface. Documented in core/sim_engine.py module docstring.
+"core/sim_engine.py" = ["ANN401"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["core", "rootid", "detverify", "honeynet", "api"]
@@ -178,6 +181,8 @@ exclude = [
 module = [
     "filterpy.*",
     "pybullet.*",
+    "pybullet_data",
+    "pybullet_data.*",
     "scipy.*",
     "sklearn.*",
     "cv2.*",
