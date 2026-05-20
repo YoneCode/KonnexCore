@@ -115,6 +115,10 @@ ignore = [
 # pybullet has no type stubs; the integration genuinely cannot type
 # its surface. Documented in core/sim_engine.py module docstring.
 "core/sim_engine.py" = ["ANN401"]
+# honeynet uses `random` for *simulation* only (validator archetypes,
+# honeypot ground-truth synthesis); none of it is security-sensitive.
+# Documented in honeynet/validator_pool.py and roboarm_gen.py.
+"honeynet/**" = ["S311"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["core", "rootid", "detverify", "honeynet", "api"]
