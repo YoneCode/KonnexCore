@@ -306,3 +306,111 @@ class TestInputValidation:
         # verify() must never raise for malformed bytes — must return False
         # so callers can treat invalid signatures uniformly.
         assert crypto.verify(b"\x00" * 32, b"x", b"\x00" * 64) is False
+
+
+# ---------------------------------------------------------------------------
+# Canonical sensor-packet signing format (Phase 1 — RootID)
+# ---------------------------------------------------------------------------
+
+
+class TestCanonicalSensor:
+    """Validate the versioned canonical signing format from spec §6.2.
+
+    Format (from docs/superpowers/plans/2026-05-20-phase-1-rootid.md):
+
+        b"knx:sensor:v1\\x00"
+        || job_id_utf8 || b"\\x00"
+        || channel_value_utf8 || b"\\x00"
+        || timestamp_ns.to_bytes(8, "big")
+        || nonce.to_bytes(8, "big")
+        || b"\\x00"
+        || raw_data
+    """
+
+    def test_format_exact_byte_string(self) -> None:
+        result = crypto.canonical_sensor_bytes(
+            job_id="job-1",
+            channel="camera",
+            timestamp_ns=0x0102030405060708,
+            nonce=0x00FF,
+            data=b"payload",
+        )
+        expected = (
+            b"knx:sensor:v1\x00"
+            + b"job-1"
+            + b"\x00"
+            + b"camera"
+            + b"\x00"
+            + (0x0102030405060708).to_bytes(8, "big")
+            + (0x00FF).to_bytes(8, "big")
+            + b"\x00"
+            + b"payload"
+        )
+        assert result == expected
+
+    def test_digest_is_sha3_of_bytes(self) -> None:
+        job_id = "job-1"
+        channel = "camera"
+        ts = 1
+        nonce = 0
+        data = b"payload"
+        canonical = crypto.canonical_sensor_bytes(job_id, channel, ts, nonce, data)
+        digest = crypto.canonical_sensor_digest(job_id, channel, ts, nonce, data)
+        assert digest == hashlib.sha3_256(canonical).digest()
+
+    def test_digest_size(self) -> None:
+        digest = crypto.canonical_sensor_digest("j", "imu", 1, 0, b"")
+        assert len(digest) == SHA3_256_BYTES
+
+    def test_negative_timestamp_rejected(self) -> None:
+        with pytest.raises(ValueError, match="non-negative"):
+            crypto.canonical_sensor_bytes("j", "imu", -1, 0, b"")
+
+    def test_negative_nonce_rejected(self) -> None:
+        with pytest.raises(ValueError, match="non-negative"):
+            crypto.canonical_sensor_bytes("j", "imu", 0, -1, b"")
+
+    @pytest.mark.parametrize(
+        ("a", "b"),
+        [
+            (("j1", "camera", 1, 0, b""), ("j2", "camera", 1, 0, b"")),  # job_id
+            (("j", "camera", 1, 0, b""), ("j", "imu", 1, 0, b"")),  # channel
+            (("j", "camera", 1, 0, b""), ("j", "camera", 2, 0, b"")),  # timestamp
+            (("j", "camera", 1, 0, b""), ("j", "camera", 1, 1, b"")),  # nonce
+            (("j", "camera", 1, 0, b"a"), ("j", "camera", 1, 0, b"b")),  # data
+        ],
+    )
+    def test_distinct_inputs_yield_distinct_digests(
+        self,
+        a: tuple[str, str, int, int, bytes],
+        b: tuple[str, str, int, int, bytes],
+    ) -> None:
+        assert crypto.canonical_sensor_digest(*a) != crypto.canonical_sensor_digest(*b)
+
+    def test_domain_separator_v1(self) -> None:
+        # The version domain separator is a stable invariant of the format.
+        assert crypto.SENSOR_DOMAIN_V1 == b"knx:sensor:v1\x00"
+
+    @given(
+        job_id=st.text(min_size=1, max_size=64).filter(lambda s: "\x00" not in s),
+        channel=st.sampled_from(
+            ["camera", "imu", "lidar", "gps", "torque", "thermal"],
+        ),
+        ts=st.integers(min_value=0, max_value=2**63 - 1),
+        nonce=st.integers(min_value=0, max_value=2**63 - 1),
+        data=st.binary(min_size=0, max_size=512),
+    )
+    @hsettings(max_examples=50, deadline=None)
+    def test_digest_matches_sha3_of_bytes_property(
+        self,
+        job_id: str,
+        channel: str,
+        ts: int,
+        nonce: int,
+        data: bytes,
+    ) -> None:
+        b = crypto.canonical_sensor_bytes(job_id, channel, ts, nonce, data)
+        assert (
+            crypto.canonical_sensor_digest(job_id, channel, ts, nonce, data)
+            == hashlib.sha3_256(b).digest()
+        )

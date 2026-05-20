@@ -160,3 +160,80 @@ def merkle_root(leaves: list[bytes]) -> bytes:
             level.append(level[-1])
         level = [sha3_256(level[i] + level[i + 1]) for i in range(0, len(level), 2)]
     return level[0]
+
+
+# ---------------------------------------------------------------------------
+# Canonical sensor-packet signing format (Phase 1 — RootID)
+# ---------------------------------------------------------------------------
+
+#: Versioned domain separator for canonical sensor-packet signatures.
+#: Bumping to ``v2`` is how the format evolves without breaking deployed
+#: verifiers — the prefix is part of the signed bytes, so a v1 verifier
+#: rejects v2 packets at the signature stage.
+SENSOR_DOMAIN_V1: bytes = b"knx:sensor:v1\x00"
+
+
+def canonical_sensor_bytes(
+    job_id: str,
+    channel: str,
+    timestamp_ns: int,
+    nonce: int,
+    data: bytes,
+) -> bytes:
+    """Return the canonical pre-hash byte string for a sensor packet.
+
+    Format (versioned by ``SENSOR_DOMAIN_V1``)::
+
+        b"knx:sensor:v1\\x00"
+        || job_id_utf8 || b"\\x00"
+        || channel_utf8 || b"\\x00"
+        || timestamp_ns.to_bytes(8, "big")
+        || nonce.to_bytes(8, "big")
+        || b"\\x00"
+        || data
+
+    Args:
+        job_id: JobID issued by TaskRegistry (UTF-8 string).
+        channel: Sensor channel value, e.g. ``SensorChannel.CAMERA.value``.
+        timestamp_ns: Capture timestamp in nanoseconds since epoch (uint64).
+        nonce: Monotonic counter per ``(job_id, channel)`` (uint64).
+        data: Decoded sensor payload bytes.
+
+    Returns:
+        The canonical pre-hash byte string. Pass this to
+        :func:`canonical_sensor_digest` to obtain the 32-byte digest
+        which is what the TEE actually signs.
+
+    Raises:
+        ValueError: If ``timestamp_ns`` or ``nonce`` is negative, or if
+            either exceeds the uint64 range.
+    """
+    if timestamp_ns < 0 or nonce < 0:
+        msg = "timestamp_ns and nonce must be non-negative"
+        raise ValueError(msg)
+    return (
+        SENSOR_DOMAIN_V1
+        + job_id.encode("utf-8")
+        + b"\x00"
+        + channel.encode("utf-8")
+        + b"\x00"
+        + timestamp_ns.to_bytes(8, "big")
+        + nonce.to_bytes(8, "big")
+        + b"\x00"
+        + data
+    )
+
+
+def canonical_sensor_digest(
+    job_id: str,
+    channel: str,
+    timestamp_ns: int,
+    nonce: int,
+    data: bytes,
+) -> bytes:
+    """SHA-3-256 of :func:`canonical_sensor_bytes`. 32 bytes.
+
+    This is the value the TEE simulator signs and the verifier
+    re-computes.
+    """
+    return sha3_256(canonical_sensor_bytes(job_id, channel, timestamp_ns, nonce, data))
