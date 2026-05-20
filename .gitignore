@@ -1,0 +1,75 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+.hypothesis/
+
+# --- Build artefacts ---
+build/
+dist/
+*.so
+*.dylib
+
+# --- Virtual environments ---
+venv/
+.venv/
+env/
+.env-venv/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- Node / dashboard ---
+node_modules/
+dashboard/dist/
+dashboard/.vite/
+.pnpm-debug.log
+.npm/
+.yarn/
+
+# --- Environment files (real secrets must never be committed) ---
+.env
+.env.local
+.env.*.local
+*.local
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Project-local artefacts ---
+*.log
+*.pid
+bundle.json
+attestation_report.json
+
+# --- Knowledge bases / generated content ---
+.kb/
+
+# --- Upstream skill sources ---
+# `skills/` is the curated active set referenced by design spec Section 1.
+# `` and `` are the upstream repositories the
+# active set was derived from; we exclude them from the project repo to
+# keep the grant submission lean. Re-fetch them locally if you need to
+# refresh skills/ from upstream.
+
+

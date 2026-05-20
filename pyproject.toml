@@ -1,0 +1,226 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "konnexcore"
+version = "0.1.0"
+description = "TEE-attested sensor capture + deterministic Layer-3 verifier + honeypot oracle for Konnex."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [
+    { name = "KonnexCore Contributors" },
+]
+keywords = ["konnex", "depin", "robotics", "popw", "validator", "tee"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Scientific/Engineering",
+]
+
+[tool.setuptools]
+# Source layout is flat package directories at the repo root (see spec
+# Section 3). Every layer ships its own top-level package.
+packages = [
+    "core",
+    "rootid",
+    "detverify",
+    "detverify.stages",
+    "honeynet",
+    "honeynet.generators",
+    "api",
+    "api.routes",
+]
+
+# ---------------------------------------------------------------------------
+# Ruff — single linter for the entire project.
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = [
+    "venv",
+    ".venv",
+    "build",
+    "dist",
+    "dashboard",  # JS/TS — out of scope for ruff.
+    "skills",
+    "skills-library",
+    "impeccable",
+]
+
+[tool.ruff.lint]
+# Allow the Greek letters and unicode minus that appear in Konnex's
+# metascore formula verbatim (S(V_i) = α·C + β·H − γ·P). Suppressing
+# the per-symbol RUF003 noise rather than littering noqa comments
+# preserves spec fidelity (design spec Section 6).
+allowed-confusables = ["α", "β", "γ", "−", "·", "≥", "≤"]
+# Aggressive baseline; targeted ignores below.
+select = [
+    "E",      # pycodestyle errors
+    "F",      # pyflakes
+    "W",      # pycodestyle warnings
+    "I",      # isort
+    "N",      # pep8-naming
+    "UP",     # pyupgrade
+    "B",      # bugbear
+    "SIM",    # simplify
+    "RUF",    # ruff-specific
+    "ANN",    # flake8-annotations
+    "S",      # flake8-bandit (security)
+    "C90",    # mccabe complexity
+    "ASYNC",  # flake8-async
+    "PT",     # flake8-pytest-style
+    "RET",    # flake8-return
+    "TCH",    # flake8-type-checking
+    "TID",    # flake8-tidy-imports
+    "PERF",   # perflint
+    "FURB",   # refurb
+    "LOG",    # flake8-logging
+    "PL",     # pylint subset
+]
+ignore = [
+    # Allow no-blank-line-before-class (D211 / formatting handled by black).
+    "D203",
+    "D213",
+    # Type annotations on `self` and `cls` are noise in Python 3.10+.
+    "ANN101",
+    "ANN102",
+    # `assert` is fine in tests; we scope-disable in [tool.ruff.lint.per-file-ignores].
+    # `from __future__ import annotations` makes some TCH rules awkward; keep TCH but allow simple cases.
+]
+
+[tool.ruff.lint.per-file-ignores]
+"core/tests/**" = [
+    "S101",     # asserts are mandatory in tests
+    "ANN201",   # test functions don't need return-type annotations
+    "PLR2004",  # magic numbers in test vectors are intentional
+    "S105",     # hardcoded-password false positives on hex strings
+    "S106",
+]
+"**/tests/**" = [
+    "S101",
+    "ANN201",
+    "PLR2004",
+    "S105",
+    "S106",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["core", "rootid", "detverify", "honeynet", "api"]
+
+[tool.ruff.lint.flake8-type-checking]
+# Pydantic v2 evaluates annotations at runtime for validation, so its
+# base classes must NOT be moved into TYPE_CHECKING blocks.
+runtime-evaluated-base-classes = [
+    "pydantic.BaseModel",
+    "pydantic_settings.BaseSettings",
+]
+runtime-evaluated-decorators = ["pydantic.validate_call"]
+
+[tool.ruff.format]
+# Ruff's formatter (black-compatible). Run via `ruff format` if needed,
+# but the project's canonical formatter is black (per spec Section 4).
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+# ---------------------------------------------------------------------------
+# Black — formatter (pinned per spec Section 4).
+# ---------------------------------------------------------------------------
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+extend-exclude = '''
+/(
+    venv
+  | \.venv
+  | build
+  | dist
+  | dashboard
+  | skills
+  | skills-library
+  | impeccable
+)/
+'''
+
+# ---------------------------------------------------------------------------
+# Mypy — strict on every shipped layer.
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unused_ignores = true
+warn_unreachable = true
+no_implicit_reexport = true
+show_error_codes = true
+show_column_numbers = true
+pretty = true
+exclude = [
+    "venv/",
+    "\\.venv/",
+    "build/",
+    "dist/",
+    "dashboard/",
+    "skills/",
+    "",
+    "",
+]
+
+[[tool.mypy.overrides]]
+module = [
+    "filterpy.*",
+    "pybullet.*",
+    "scipy.*",
+    "sklearn.*",
+    "cv2.*",
+]
+ignore_missing_imports = true
+
+# ---------------------------------------------------------------------------
+# Pytest + coverage.
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["core/tests", "rootid/tests", "detverify/tests", "honeynet/tests", "tests"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+]
+markers = [
+    "slow: marks tests that take more than ~1s to run",
+    "integration: end-to-end pipeline tests",
+    "adversarial: tests using adversarial inputs",
+]
+filterwarnings = [
+    "error",
+    # Pydantic v2 emits a UserWarning on certain coercions in some plugins; allow them.
+    "ignore::DeprecationWarning:pydantic.*",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["core", "rootid", "detverify", "honeynet", "api"]
+omit = [
+    "*/tests/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 85
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "@overload",
+]
