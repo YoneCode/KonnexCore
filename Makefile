@@ -1,18 +1,22 @@
-.PHONY: dev test test-fast test-coverage lint format demo clean help
+.PHONY: dev test test-fast test-coverage lint format demo clean help dashboard build-dashboard setup-vps deploy
 
 PYTHON ?= python3
 PIP ?= $(PYTHON) -m pip
 
 help:
 	@echo "KonnexCore — make targets:"
-	@echo "  dev            install pinned Python dependencies"
-	@echo "  test           run the full test suite"
-	@echo "  test-fast      run tests not marked 'slow'"
-	@echo "  test-coverage  run tests with HTML coverage report at htmlcov/"
-	@echo "  lint           ruff + mypy strict on core/"
-	@echo "  format         black + ruff --fix"
-	@echo "  demo           run the end-to-end demo (Phase 9; not yet wired)"
-	@echo "  clean          remove caches and build artefacts"
+	@echo "  dev               install pinned Python dependencies"
+	@echo "  test              run the full test suite"
+	@echo "  test-fast         run tests not marked 'slow'"
+	@echo "  test-coverage     run tests with HTML coverage report at htmlcov/"
+	@echo "  lint              ruff + mypy strict on core/"
+	@echo "  format            black + ruff --fix"
+	@echo "  demo              run the end-to-end honeypot demo"
+	@echo "  dashboard         run the Vite dev server (requires pnpm)"
+	@echo "  build-dashboard   build the dashboard for production"
+	@echo "  setup-vps         run scripts/setup_vps.sh on this host"
+	@echo "  deploy            ship to remote VPS via scripts/deploy.sh"
+	@echo "  clean             remove caches and build artefacts"
 
 dev:
 	$(PIP) install --upgrade pip
@@ -38,8 +42,19 @@ format:
 	$(PYTHON) -m ruff check --fix .
 
 demo:
-	@echo "End-to-end demo wiring lands in Phase 9."
-	@exit 1
+	$(PYTHON) examples/05_honeypot_demo.py
+
+dashboard:
+	cd dashboard && pnpm install && pnpm dev
+
+build-dashboard:
+	cd dashboard && pnpm install --frozen-lockfile && pnpm run build
+
+setup-vps:
+	./scripts/setup_vps.sh
+
+deploy:
+	./scripts/deploy.sh
 
 clean:
 	rm -rf .pytest_cache .mypy_cache .ruff_cache htmlcov .coverage
