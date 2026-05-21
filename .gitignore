@@ -71,8 +71,16 @@ attestation_report.json
 # active set was derived from; we exclude them from the project repo to
 # keep the grant submission lean. Re-fetch them locally if you need to
 # refresh skills/ from upstream.
+skills/
 
 
+
+# --- Internal process docs (not for public repo) ---
+design spec
+design tokens
+idea-*.md
+how-to-creat-stong-dapp-from-3-idea.md
+docs/superpowers/
 dashboard/node_modules/
 
 # Real sensor datasets — large; download per docs in tests/test_data_loaders.py

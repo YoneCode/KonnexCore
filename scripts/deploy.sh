@@ -5,7 +5,7 @@
 #
 # Usage
 # -----
-#   REMOTE_USER=kiro3 REMOTE_HOST=37.120.175.12 ./scripts/deploy.sh
+#   REMOTE_USER=<user> REMOTE_HOST=<vps-ip> ./scripts/deploy.sh
 #
 # Optional env:
 #   REMOTE_PATH    target dir on the VPS  (default ~/konnex-detverify)

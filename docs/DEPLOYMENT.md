@@ -98,13 +98,13 @@ VPS (excluding venvs and caches), refreshes Python deps, and restarts the
 service:
 
 ```bash
-REMOTE_USER=kiro3 REMOTE_HOST=37.120.175.12 ./scripts/deploy.sh
+REMOTE_USER=kiro3 REMOTE_HOST=<your-vps-ip> ./scripts/deploy.sh
 
 # Dry run — show the rsync plan without touching the remote.
-DRY_RUN=1 REMOTE_USER=kiro3 REMOTE_HOST=37.120.175.12 ./scripts/deploy.sh
+DRY_RUN=1 REMOTE_USER=kiro3 REMOTE_HOST=<your-vps-ip> ./scripts/deploy.sh
 
 # Skip the dashboard build (e.g. after Python-only changes).
-SKIP_BUILD=1 REMOTE_USER=kiro3 REMOTE_HOST=37.120.175.12 ./scripts/deploy.sh
+SKIP_BUILD=1 REMOTE_USER=kiro3 REMOTE_HOST=<your-vps-ip> ./scripts/deploy.sh
 ```
 
 ## HTTPS
