@@ -38,7 +38,7 @@ export function HoneynetDemo(): JSX.Element {
               the consensus can't.
             </span>
           </h1>
-          <p className="mt-6 max-w-[60ch] text-body text-subtext">
+          <p className="mt-6 max-w-[58ch] text-body leading-relaxed text-subtext">
             Lazy validators copy the network median and pass consensus
             checks. They fail the H(V_i) term — honeypot accuracy — because
             they never actually verify anything. Run the demo CLI

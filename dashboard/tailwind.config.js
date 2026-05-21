@@ -21,14 +21,18 @@ export default {
         mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
       },
       fontSize: {
-        // Modular scale, ratio ≈ 1.25
-        "display-xl": ["clamp(3rem, 6vw + 1rem, 5.5rem)", { lineHeight: "1.02", letterSpacing: "-0.025em" }],
-        "display-lg": ["clamp(2.25rem, 4vw + 0.5rem, 3.5rem)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
-        "display-md": ["1.875rem", { lineHeight: "1.1", letterSpacing: "-0.015em" }],
-        "title": ["1.25rem", { lineHeight: "1.25", letterSpacing: "-0.005em" }],
-        "body": ["1rem", { lineHeight: "1.55" }],
-        "small": ["0.875rem", { lineHeight: "1.5" }],
-        "label": ["0.75rem", { lineHeight: "1.4", letterSpacing: "0.06em" }],
+        // Modular scale, ratio ≈ 1.25. Three tiers:
+        // Display: fluid (clamp), for hero headlines only.
+        // UI: fixed rem, for headings within content areas.
+        // Text: fixed rem, for body/labels.
+        "display-xl": ["clamp(3rem, 5vw + 1rem, 5rem)", { lineHeight: "1.02", letterSpacing: "-0.025em", fontWeight: "300" }],
+        "display-lg": ["clamp(2rem, 3vw + 0.5rem, 3rem)", { lineHeight: "1.08", letterSpacing: "-0.02em", fontWeight: "300" }],
+        "display-md": ["1.75rem", { lineHeight: "1.15", letterSpacing: "-0.015em", fontWeight: "500" }],
+        "title": ["1.25rem", { lineHeight: "1.3", letterSpacing: "-0.005em", fontWeight: "500" }],
+        "subtitle": ["1.0625rem", { lineHeight: "1.4", letterSpacing: "0em", fontWeight: "500" }],
+        "body": ["1rem", { lineHeight: "1.6" }],
+        "small": ["0.875rem", { lineHeight: "1.55" }],
+        "label": ["0.6875rem", { lineHeight: "1.4", letterSpacing: "0.06em", fontWeight: "500" }],
       },
       borderRadius: {
         DEFAULT: "2px",

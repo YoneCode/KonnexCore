@@ -29,7 +29,7 @@ export function Header(): JSX.Element {
               end={item.to === "/"}
               className={({ isActive }) =>
                 cn(
-                  "font-mono text-label uppercase tracking-wider transition-colors",
+                  "font-mono text-label uppercase tracking-wide transition-colors",
                   isActive ? "text-ink" : "text-subtext hover:text-ink",
                 )
               }

@@ -32,7 +32,7 @@ export function RootIDDemo(): JSX.Element {
               software-simulated TEE.
             </span>
           </h1>
-          <p className="mt-6 max-w-[60ch] text-body text-subtext">
+          <p className="mt-6 max-w-[58ch] text-body leading-relaxed text-subtext">
             The TEE simulator generates an isolated Ed25519 keypair and binds
             it to a <code className="font-mono">did:knx:</code> identifier.
             Production swaps in ARM PSA Crypto API or Apple Secure Enclave.
@@ -103,7 +103,7 @@ function Step({
   return (
     <div className="bg-paper p-8">
       <span className="font-mono text-label uppercase text-subtext">{ord}</span>
-      <h3 className="mt-3 font-display text-title font-medium text-ink">
+      <h3 className="mt-3 font-display text-subtitle text-ink">
         {title}
       </h3>
       <p className="mt-2 text-small text-subtext">{body}</p>

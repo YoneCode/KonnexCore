@@ -59,7 +59,7 @@ export function DetVerifyDemo(): JSX.Element {
             </span>{" "}
             per attack.
           </h1>
-          <p className="mt-6 max-w-[60ch] text-body text-subtext">
+          <p className="mt-6 max-w-[58ch] text-body leading-relaxed text-subtext">
             Pick a scenario. The clean run scores ≥ 80 with all six stages
             passing. Each adversarial run drops below 30 with a precisely
             named stage at fault.

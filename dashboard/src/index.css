@@ -96,7 +96,11 @@
     border-color: var(--color-signal);
   }
   .label-eyebrow {
-    @apply font-mono text-label uppercase text-subtext;
+    @apply font-mono text-label uppercase text-subtext tracking-wide;
+  }
+  .prose-body {
+    @apply text-body leading-relaxed text-subtext;
+    max-width: 58ch;
   }
   .pill {
     @apply inline-flex items-center gap-1 rounded-sm border px-2 py-0.5 font-mono text-label uppercase;
