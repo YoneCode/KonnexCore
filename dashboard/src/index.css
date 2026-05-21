@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=IBM+Plex+Sans:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* OKLCH design tokens — see design tokens */
+  --color-paper: oklch(98% 0.005 85);
+  --color-surface: oklch(96% 0.005 85);
+  --color-ink: oklch(18% 0.01 250);
+  --color-subtext: oklch(48% 0.01 250);
+  --color-signal: oklch(70% 0.18 65);
+  --color-signal-deep: oklch(56% 0.16 60);
+  --color-verified: oklch(60% 0.10 195);
+  --color-rejected: oklch(58% 0.20 25);
+  --color-rule: oklch(88% 0.005 85);
+  --color-rule-strong: oklch(78% 0.005 85);
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Light-only for now — dark variant is Phase 8 polish work. */
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-feature-settings: "ss01" on, "cv01" on;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background-color: var(--color-signal);
+    color: var(--color-ink);
+  }
+  /* Tabular numerics by default for any KPI in the dashboard. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  hr,
+  .rule {
+    border: 0;
+    border-top: 1px dashed var(--color-rule-strong);
+  }
+  /* Respect reduced motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .stage-tile {
+    @apply relative flex flex-col gap-2 border border-rule bg-surface p-4 transition-shadow duration-300 ease-out-quart;
+  }
+  .stage-tile:hover {
+    box-shadow: var(--shadow-lift, 0 8px 24px -16px rgba(40, 40, 50, 0.18));
+  }
+  .label-eyebrow {
+    @apply font-mono text-label uppercase text-subtext;
+  }
+  .pill {
+    @apply inline-flex items-center gap-1 rounded-sm border border-rule px-2 py-0.5 font-mono text-label uppercase;
+  }
+}
