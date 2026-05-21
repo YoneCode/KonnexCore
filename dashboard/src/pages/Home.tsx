@@ -57,7 +57,7 @@ export function Home(): JSX.Element {
         >
           <div className="border border-rule bg-surface p-5">
             <dl className="space-y-4 text-small">
-              <Stat label="Tests" value="298" />
+              <Stat label="Tests" value="293+" />
               <Stat label="Coverage" value="99%" />
               <Stat label="Phases" value="9/9" />
               <Stat label="Crypto" value="SHA-3 + Ed25519" />

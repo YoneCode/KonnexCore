@@ -54,6 +54,12 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+  /* Global focus ring — visible only on keyboard nav, never on click. */
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 2px;
+    border-radius: 1px;
+  }
   ::selection {
     background-color: var(--color-signal);
     color: var(--color-ink);
@@ -65,6 +71,12 @@
   .rule {
     border: 0;
     border-top: 1px dashed var(--color-rule-strong);
+  }
+  /* Consistent loading state. Apply `.is-loading` to fade content uniformly. */
+  .is-loading {
+    opacity: 0.45;
+    pointer-events: none;
+    transition: opacity 0.2s ease-out;
   }
   @media (prefers-reduced-motion: reduce) {
     *,

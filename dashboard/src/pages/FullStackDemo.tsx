@@ -62,12 +62,13 @@ export function FullStackDemo(): JSX.Element {
           <button
             key={s.key}
             type="button"
+            disabled={loading}
             onClick={() => withViewTransition(() => setActive(s.key))}
             className={cn(
               "border px-3 py-2 font-mono text-label uppercase tracking-wider transition-all duration-200 ease-out-quart",
               active === s.key
                 ? "border-ink bg-ink text-paper shadow-lift"
-                : "border-rule bg-paper text-subtext hover:border-ink hover:text-ink",
+                : "border-rule bg-paper text-subtext hover:border-ink hover:text-ink disabled:opacity-40 disabled:pointer-events-none",
             )}
           >
             {s.title}
@@ -83,7 +84,7 @@ export function FullStackDemo(): JSX.Element {
 
       <section className="mt-10">
         <h2 className="label-eyebrow">DetVerify cascade</h2>
-        <div className={cn("mt-4 transition-opacity duration-200", loading && "opacity-40")}>
+        <div className={cn("mt-4", loading && "is-loading")}>
           <StageRow stages={result?.detverify.stage_results ?? []} />
         </div>
       </section>

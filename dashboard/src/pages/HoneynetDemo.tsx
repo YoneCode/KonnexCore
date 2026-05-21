@@ -60,7 +60,7 @@ export function HoneynetDemo(): JSX.Element {
             <div
               className={cn(
                 "mt-4 border border-rule bg-surface p-4 transition-opacity",
-                loading && "opacity-60",
+                loading && "is-loading",
               )}
             >
               {rows.length === 0 ? (

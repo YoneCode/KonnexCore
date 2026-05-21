@@ -72,12 +72,13 @@ export function DetVerifyDemo(): JSX.Element {
           <button
             key={s.key}
             type="button"
+            disabled={loading}
             onClick={() => setActive(s.key)}
             className={cn(
               "border px-3 py-2 font-mono text-label uppercase tracking-wider transition-colors duration-200 ease-out-quart",
               active === s.key
                 ? "border-ink bg-ink text-paper"
-                : "border-rule bg-paper text-subtext hover:border-ink hover:text-ink",
+                : "border-rule bg-paper text-subtext hover:border-ink hover:text-ink disabled:opacity-40 disabled:pointer-events-none",
             )}
           >
             {s.title}
@@ -93,7 +94,7 @@ export function DetVerifyDemo(): JSX.Element {
 
       <section className="mt-10">
         <h2 className="label-eyebrow">Stage cascade</h2>
-        <div className={cn("mt-4 transition-opacity", loading && "opacity-50")}>
+        <div className={cn("mt-4", loading && "is-loading")}>
           {result ? (
             <StageRow stages={result.detverify.stage_results} />
           ) : (
