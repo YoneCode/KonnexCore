@@ -85,12 +85,16 @@ export function ScorePanel({ score, animate }: Props): JSX.Element {
 }
 
 function truncateReasoning(text: string): string {
-  // Same joint-violation collapse as StageRow.
   const jointMatch = text.match(/torque\[\d+\]\.joint\[\d+\]=[\d.]+ exceeds \|limit\|=([\d.]+)/g);
   if (jointMatch && jointMatch.length > 1) {
     const limit = text.match(/\|limit\|=([\d.]+)/)?.[1] ?? "320.0";
     const prefix = text.split("torque[")[0] ?? "";
     return `${prefix}${jointMatch.length} joints exceed ${limit} N·m limit`;
+  }
+  const temporalMatch = text.match(/(\w+)\[\d+\] timestamp_ns=\d+ not after prev=\d+/);
+  if (temporalMatch) {
+    const prefix = text.split(temporalMatch[1])[0] ?? "";
+    return `${prefix}${temporalMatch[1]} timestamps out of order (non-monotonic)`;
   }
   if (text.length <= 120) return text;
   return text.slice(0, 120) + "…";

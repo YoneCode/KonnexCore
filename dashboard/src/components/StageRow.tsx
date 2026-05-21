@@ -103,12 +103,17 @@ function cascadeDelay(name: string): number {
 const MAX_DETAIL_LEN = 80;
 
 function truncateDetail(detail: string): string {
-  // Collapse repetitive joint violations: "torque[0].joint[0]=99999... ; joint[1]= ... ; joint[6]="
-  // into a single summary like "7 joints exceed 320.0 N·m limit"
+  // Collapse repetitive joint violations into a summary.
   const jointMatch = detail.match(/torque\[\d+\]\.joint\[\d+\]=[\d.]+ exceeds \|limit\|=([\d.]+)/g);
   if (jointMatch && jointMatch.length > 1) {
     const limit = detail.match(/\|limit\|=([\d.]+)/)?.[1] ?? "320.0";
     return `${jointMatch.length} joints exceed ${limit} N·m limit`;
+  }
+  // Humanize temporal failure: "camera[1] timestamp_ns=X not after prev=Y"
+  const temporalMatch = detail.match(/(\w+)\[\d+\] timestamp_ns=\d+ not after prev=\d+/);
+  if (temporalMatch) {
+    const channel = temporalMatch[1];
+    return `${channel} timestamps out of order (non-monotonic)`;
   }
   if (detail.length <= MAX_DETAIL_LEN) return detail;
   return detail.slice(0, MAX_DETAIL_LEN) + "…";
