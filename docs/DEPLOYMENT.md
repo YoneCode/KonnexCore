@@ -23,7 +23,7 @@ exposed at the firewall — only Nginx talks to it.
 ## Prerequisites
 
 - A VPS with **sudo + SSH key access**. Ubuntu 22.04 / 24.04 LTS recommended.
-- Project source checked out at `~/konnex-detverify` (any path works; pass
+- Project source checked out at `~/KonnexCore` (any path works; pass
   `PROJECT_DIR=` to override).
 - A DNS A record pointing at the VPS IP (only required for HTTPS — HTTP
   works against the bare IP).
@@ -33,8 +33,8 @@ exposed at the firewall — only Nginx talks to it.
 SSH into the VPS as the user that should own the deployment, then:
 
 ```bash
-git clone https://github.com/yoncode/konnex-detverify.git
-cd konnex-detverify
+git clone https://github.com/YoneCode/KonnexCore.git
+cd KonnexCore
 ./scripts/setup_vps.sh
 ```
 

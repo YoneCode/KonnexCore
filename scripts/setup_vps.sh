@@ -20,7 +20,7 @@
 # Usage
 # -----
 #   ./scripts/setup_vps.sh                    # default config
-#   PROJECT_DIR=$HOME/konnex-detverify ./scripts/setup_vps.sh
+#   PROJECT_DIR=$HOME/KonnexCore ./scripts/setup_vps.sh
 #   SERVER_NAME=demo.example.com ./scripts/setup_vps.sh
 #
 # Run uninstall.sh from the same directory to undo (preserves source).

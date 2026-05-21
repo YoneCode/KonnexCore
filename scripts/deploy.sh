@@ -8,7 +8,7 @@
 #   REMOTE_USER=<user> REMOTE_HOST=<vps-ip> ./scripts/deploy.sh
 #
 # Optional env:
-#   REMOTE_PATH    target dir on the VPS  (default ~/konnex-detverify)
+#   REMOTE_PATH    target dir on the VPS  (default ~/KonnexCore)
 #   SERVICE_NAME   systemd unit name      (default konnexcore)
 #   SKIP_BUILD=1   skip pnpm build
 #   DRY_RUN=1      show rsync plan only
@@ -21,7 +21,7 @@ set -euo pipefail
 
 REMOTE_USER="${REMOTE_USER:?must set REMOTE_USER}"
 REMOTE_HOST="${REMOTE_HOST:?must set REMOTE_HOST}"
-REMOTE_PATH="${REMOTE_PATH:-~/konnex-detverify}"
+REMOTE_PATH="${REMOTE_PATH:-~/KonnexCore}"
 SERVICE_NAME="${SERVICE_NAME:-konnexcore}"
 
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

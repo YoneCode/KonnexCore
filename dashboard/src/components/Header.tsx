@@ -39,7 +39,7 @@ export function Header(): JSX.Element {
           ))}
         </nav>
         <a
-          href="https://github.com/yoncode/konnex-detverify"
+          href="https://github.com/YoneCode/KonnexCore"
           className="hidden font-mono text-label uppercase tracking-wider text-subtext hover:text-ink md:inline"
           target="_blank"
           rel="noreferrer noopener"

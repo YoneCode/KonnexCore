@@ -23,8 +23,8 @@ A React dashboard, a FastAPI backend exposing all three layers over HTTP, and a 
 ## Run locally
 
 ```bash
-git clone https://github.com/yoncode/konnex-detverify.git
-cd konnex-detverify
+git clone https://github.com/YoneCode/KonnexCore.git
+cd KonnexCore
 
 # Python backend
 python3 -m venv venv && source venv/bin/activate
@@ -57,8 +57,8 @@ python examples/05_honeypot_demo.py              # Honeynet leaderboard
 
 ```bash
 ssh user@your-server
-git clone https://github.com/yoncode/konnex-detverify.git
-cd konnex-detverify
+git clone https://github.com/YoneCode/KonnexCore.git
+cd KonnexCore
 ./scripts/setup_vps.sh
 ```
 

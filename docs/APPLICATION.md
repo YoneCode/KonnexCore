@@ -27,7 +27,7 @@ Founder / Tech lead
 
 ## GitHub / portfolio
 
-https://github.com/yoncode/konnex-detverify
+https://github.com/YoneCode/KonnexCore
 
 ## One-line pitch (140 chars max)
 

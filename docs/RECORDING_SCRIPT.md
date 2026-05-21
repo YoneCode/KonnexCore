@@ -25,7 +25,7 @@
 | **00:22–00:38** | Navigate to `/full-stack`. The **clean** scenario loads automatically — show the six green stage tiles + ScoreVector at 100. Then click **Deepfake video**. Show the cascade: stage 1 fails red, pipeline short-circuits, score drops to 0. | "Same bundle shape. Their LLM verifier passes. Our deterministic Layer 3 catches it — stage 1, signature mismatch." |
 | **00:38–00:50** | Click through **Frame skip** → stage 2 (temporal) fails. Click **Torque mismatch** → stage 6 (kinematic) fails. Quick montage — each click flips the verdict to failure with a different named stage. | "Five adversarial attacks, three distinct stage failures. Deterministic, repeatable, no LLM cost." |
 | **00:50–00:57** | Navigate to `/honeynet`. Show the bar chart (pre-populated by running `make demo` beforehand). Honest validator at the top; lazy/collusion/stake-pump below. | "Honeypots inject reference tasks. The H term catches lazy validators that fool consensus." |
-| **00:57–01:00** | Return to home `/`. Hold on the hero headline. Fade to black. | "KonnexCore. Open-source. github.com/yoncode/konnex-detverify." |
+| **00:57–01:00** | Return to home `/`. Hold on the hero headline. Fade to black. | "KonnexCore. Open-source. github.com/YoneCode/KonnexCore." |
 
 ---
 

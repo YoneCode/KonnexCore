@@ -40,7 +40,7 @@ export default function App(): JSX.Element {
             KonnexCore · Spark tier · MIT licence
           </p>
           <p className="font-mono text-label uppercase tracking-wider text-subtext">
-            github.com/yoncode/konnex-detverify
+            github.com/YoneCode/KonnexCore
           </p>
         </div>
       </footer>
