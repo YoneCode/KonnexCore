@@ -5,21 +5,41 @@
 @tailwind utilities;
 
 :root {
-  /* OKLCH design tokens — see design tokens */
   --color-paper: oklch(98% 0.005 85);
   --color-surface: oklch(96% 0.005 85);
   --color-ink: oklch(18% 0.01 250);
   --color-subtext: oklch(48% 0.01 250);
   --color-signal: oklch(70% 0.18 65);
   --color-signal-deep: oklch(56% 0.16 60);
+  --color-signal-glow: oklch(80% 0.12 65);
   --color-verified: oklch(60% 0.10 195);
+  --color-verified-glow: oklch(75% 0.08 195);
   --color-rejected: oklch(58% 0.20 25);
+  --color-rejected-glow: oklch(72% 0.14 25);
   --color-rule: oklch(88% 0.005 85);
   --color-rule-strong: oklch(78% 0.005 85);
+
+  /* View transition duration */
+  --vt-duration: 350ms;
 }
 
-@media (prefers-color-scheme: dark) {
-  /* Light-only for now — dark variant is Phase 8 polish work. */
+/* View Transitions — morph the verdict pill and score panel */
+::view-transition-old(verdict),
+::view-transition-new(verdict) {
+  animation-duration: var(--vt-duration);
+  animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+::view-transition-old(score-panel),
+::view-transition-new(score-panel) {
+  animation-duration: var(--vt-duration);
+  animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+::view-transition-old(stage-cascade),
+::view-transition-new(stage-cascade) {
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
@@ -38,7 +58,6 @@
     background-color: var(--color-signal);
     color: var(--color-ink);
   }
-  /* Tabular numerics by default for any KPI in the dashboard. */
   .tabular {
     font-variant-numeric: tabular-nums;
   }
@@ -47,7 +66,6 @@
     border: 0;
     border-top: 1px dashed var(--color-rule-strong);
   }
-  /* Respect reduced motion. */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -61,15 +79,81 @@
 
 @layer components {
   .stage-tile {
-    @apply relative flex flex-col gap-2 border border-rule bg-surface p-4 transition-shadow duration-300 ease-out-quart;
+    @apply relative flex flex-col gap-2 border border-rule bg-surface p-4 transition-all duration-300 ease-out-quart;
   }
   .stage-tile:hover {
-    box-shadow: var(--shadow-lift, 0 8px 24px -16px rgba(40, 40, 50, 0.18));
+    box-shadow: 0 8px 24px -16px rgba(40, 40, 50, 0.18);
+    transform: translateY(-1px);
+  }
+  .stage-tile--fail {
+    border-color: var(--color-rejected);
+    background: linear-gradient(135deg, oklch(97% 0.02 25) 0%, var(--color-surface) 100%);
+  }
+  .stage-tile--ok {
+    border-color: var(--color-verified);
+  }
+  .stage-tile--warning {
+    border-color: var(--color-signal);
   }
   .label-eyebrow {
     @apply font-mono text-label uppercase text-subtext;
   }
   .pill {
-    @apply inline-flex items-center gap-1 rounded-sm border border-rule px-2 py-0.5 font-mono text-label uppercase;
+    @apply inline-flex items-center gap-1 rounded-sm border px-2 py-0.5 font-mono text-label uppercase;
   }
+  .pill--success {
+    border-color: var(--color-verified);
+    color: var(--color-verified);
+    background: oklch(96% 0.03 195);
+  }
+  .pill--failure {
+    border-color: var(--color-rejected);
+    color: var(--color-rejected);
+    background: oklch(96% 0.03 25);
+  }
+  .pill--inconclusive {
+    border-color: var(--color-signal);
+    color: var(--color-signal-deep);
+    background: oklch(96% 0.03 65);
+  }
+
+  /* Pulse ring effect on verdict change */
+  @keyframes pulse-ring {
+    0% { transform: scale(0.95); opacity: 1; }
+    100% { transform: scale(1.15); opacity: 0; }
+  }
+  .verdict-pulse {
+    position: relative;
+  }
+  .verdict-pulse::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 2px;
+    border: 2px solid var(--color-verified);
+    animation: pulse-ring 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    pointer-events: none;
+  }
+  .verdict-pulse--fail::after {
+    border-color: var(--color-rejected);
+  }
+
+  /* Hero gradient text accent — not generic purple-blue; uses our amber signal */
+  .text-hero-accent {
+    background: linear-gradient(135deg, var(--color-signal-deep) 0%, var(--color-signal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Score panel number — large, dramatic */
+  .score-number {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .score-number--success { color: var(--color-verified); }
+  .score-number--failure { color: var(--color-rejected); }
+  .score-number--inconclusive { color: var(--color-signal-deep); }
 }

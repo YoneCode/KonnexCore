@@ -13,40 +13,67 @@ const AXES = [
 
 interface Props {
   score: ScoreVector;
+  animate?: boolean;
 }
 
-export function ScorePanel({ score }: Props): JSX.Element {
+export function ScorePanel({ score, animate }: Props): JSX.Element {
   const tone = verdictTone(score.verdict);
   return (
-    <div className="border border-rule bg-surface p-6">
+    <div
+      className={cn(
+        "border border-rule bg-surface p-6",
+        animate && "verdict-pulse",
+        animate && tone === "fail" && "verdict-pulse--fail",
+      )}
+      style={{ viewTransitionName: "score-panel" }}
+    >
       <div className="flex items-end justify-between gap-4 border-b border-dashed border-rule pb-4">
         <div>
           <p className="label-eyebrow">Konnex ScoreVector</p>
-          <p className="mt-1 font-display text-display-md font-light text-ink tabular">
+          <p
+            className={cn(
+              "mt-1 font-display score-number tabular",
+              tone === "ok" && "score-number--success",
+              tone === "fail" && "score-number--failure",
+              tone === "warn" && "score-number--inconclusive",
+            )}
+          >
             {score.final_pct}
-            <span className="ml-1 text-subtext">/100</span>
           </p>
         </div>
         <span
           className={cn(
             "pill",
-            tone === "ok" && "border-verified text-verified",
-            tone === "fail" && "border-rejected text-rejected",
-            tone === "warn" && "border-signal text-signal-deep",
+            score.verdict === "success" && "pill--success",
+            score.verdict === "failure" && "pill--failure",
+            score.verdict === "inconclusive" && "pill--inconclusive",
           )}
+          style={{ viewTransitionName: "verdict" }}
         >
           {score.verdict}
         </span>
       </div>
       <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
-        {AXES.map(({ key, label }) => (
-          <li key={key} className="flex items-baseline justify-between gap-3">
-            <span className="font-mono text-label uppercase text-subtext">
-              {label}
-            </span>
-            <span className="text-body tabular">{score[key]}</span>
-          </li>
-        ))}
+        {AXES.map(({ key, label }) => {
+          const value = score[key];
+          return (
+            <li key={key} className="flex items-baseline justify-between gap-3">
+              <span className="font-mono text-label uppercase text-subtext">
+                {label}
+              </span>
+              <span
+                className={cn(
+                  "font-display text-title tabular font-medium",
+                  value >= 80 && "text-verified",
+                  value > 30 && value < 80 && "text-signal-deep",
+                  value <= 30 && "text-rejected",
+                )}
+              >
+                {value}
+              </span>
+            </li>
+          );
+        })}
       </ul>
       {score.reasoning && (
         <p className="mt-4 border-t border-dashed border-rule pt-4 text-small text-subtext">

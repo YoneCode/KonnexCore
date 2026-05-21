@@ -3,99 +3,105 @@ import { Link } from "react-router-dom";
 
 export function Home(): JSX.Element {
   return (
-    <div className="mx-auto max-w-[1200px] px-6 py-16 lg:py-24">
-      <section className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-        <header className="lg:col-span-8 lg:col-start-1">
+    <div className="mx-auto max-w-[1200px] px-6 py-20 lg:py-32">
+      {/* Hero */}
+      <section className="grid gap-16 lg:grid-cols-12">
+        <header className="lg:col-span-9">
           <p className="label-eyebrow animate-rise">
-            Konnex builder grant — Spark tier
+            Konnex Builder Grant — Spark Tier
           </p>
           <h1
-            className="mt-6 font-display text-display-xl font-light leading-[1.02] text-ink animate-rise"
-            style={{ animationDelay: "70ms" }}
+            className="mt-8 font-display text-display-xl font-light text-ink animate-rise"
+            style={{ animationDelay: "60ms" }}
           >
-            The validator
+            The validator stack
             <br />
-            stack Konnex
-            <span className="font-bold italic text-signal-deep"> specced.</span>
+            Konnex <span className="font-bold italic text-hero-accent">specced.</span>
           </h1>
           <p
-            className="mt-8 max-w-[58ch] text-body text-subtext animate-rise"
-            style={{ animationDelay: "140ms" }}
+            className="mt-10 max-w-[54ch] text-body leading-relaxed text-subtext animate-rise"
+            style={{ animationDelay: "120ms" }}
           >
-            KonnexCore implements the three layers Konnex's docs call for but
-            don't yet ship as reference code: TEE-attested sensor capture,
-            deterministic six-stage verification, and a honeypot oracle that
-            scores the validators that score miners.
+            TEE-attested sensor capture. Six-stage deterministic verification.
+            Honeypot oracle scoring the validators that score miners. All three
+            layers Konnex's docs call for — shipped as working open-source code.
           </p>
           <div
-            className="mt-10 flex flex-wrap items-center gap-4 animate-rise"
-            style={{ animationDelay: "210ms" }}
+            className="mt-12 flex flex-wrap items-center gap-5 animate-rise"
+            style={{ animationDelay: "180ms" }}
           >
             <Link
               to="/full-stack"
-              className="border border-ink bg-ink px-6 py-3 font-mono text-label uppercase tracking-wider text-paper transition-transform duration-300 ease-out-quart hover:-translate-y-px"
+              className="group relative overflow-hidden border border-ink bg-ink px-7 py-3.5 font-mono text-label uppercase tracking-wider text-paper transition-transform duration-300 ease-out-quart hover:-translate-y-0.5"
             >
-              Run the full-stack demo →
+              <span className="relative z-10">Run the demo →</span>
             </Link>
             <Link
               to="/detverify"
-              className="font-mono text-label uppercase tracking-wider text-subtext underline-offset-4 hover:text-ink hover:underline"
+              className="font-mono text-label uppercase tracking-wider text-subtext underline-offset-4 transition-colors hover:text-ink hover:underline"
             >
-              See the verifier alone
+              DetVerify alone
             </Link>
+            <a
+              href="/docs"
+              className="font-mono text-label uppercase tracking-wider text-subtext underline-offset-4 transition-colors hover:text-ink hover:underline"
+            >
+              API docs
+            </a>
           </div>
         </header>
 
-        <aside className="lg:col-span-4 lg:col-start-9">
-          <ul className="border border-rule bg-surface p-6 text-small text-subtext">
-            <li className="border-b border-dashed border-rule pb-3">
-              <span className="font-mono text-label uppercase text-ink">
-                Status
-              </span>
-              <p className="mt-1">All 6 phases complete; live demo + tests.</p>
-            </li>
-            <li className="py-3">
-              <span className="font-mono text-label uppercase text-ink">
-                Schema
-              </span>
-              <p className="mt-1">
-                Konnex AI Verifier <code className="font-mono">ScoreVector</code>{" "}
-                — exact mirror.
-              </p>
-            </li>
-            <li className="border-t border-dashed border-rule pt-3">
-              <span className="font-mono text-label uppercase text-ink">
-                Crypto
-              </span>
-              <p className="mt-1">SHA-3-256 + Ed25519 (RFC 8032).</p>
-            </li>
-          </ul>
+        <aside
+          className="self-end lg:col-span-3 animate-rise"
+          style={{ animationDelay: "240ms" }}
+        >
+          <div className="border border-rule bg-surface p-5">
+            <dl className="space-y-4 text-small">
+              <Stat label="Tests" value="298" />
+              <Stat label="Coverage" value="99%" />
+              <Stat label="Phases" value="9/9" />
+              <Stat label="Crypto" value="SHA-3 + Ed25519" />
+            </dl>
+          </div>
         </aside>
       </section>
 
-      <section className="mt-24 grid gap-px bg-rule lg:grid-cols-3">
-        <LayerCard
-          ord="A"
-          title="RootID"
-          tagline="Identity & TEE attestation"
-          to="/rootid"
-          body="Software-simulated TEE signs every sensor packet at capture time. Bound to a did:knx: identity and a job nonce that can't be replayed."
-        />
-        <LayerCard
-          ord="B"
-          title="DetVerify"
-          tagline="Deterministic Layer-3 verifier"
-          to="/detverify"
-          body="Six closed-form stages (signature, temporal, cross-modal, replay, anomaly, kinematic) catch what GPT-4o reference verifiers miss."
-        />
-        <LayerCard
-          ord="C"
-          title="Honeynet"
-          tagline="Honeypot oracle"
-          to="/honeynet"
-          body="Indistinguishable reference tasks compute H(V_i) per validator. Lazy validators that mimic the network median fail honeypot accuracy."
-        />
+      {/* Three layers */}
+      <section className="mt-32">
+        <p className="label-eyebrow">Architecture</p>
+        <div className="mt-6 grid gap-px bg-rule lg:grid-cols-3">
+          <LayerCard
+            ord="A"
+            title="RootID"
+            tagline="Identity & TEE attestation"
+            to="/rootid"
+            body="Software TEE signs each sensor frame at capture. Monotonic nonces per (job, channel). did:knx: bound to Ed25519 pubkey."
+          />
+          <LayerCard
+            ord="B"
+            title="DetVerify"
+            tagline="Deterministic Layer-3"
+            to="/detverify"
+            body="Signature → Temporal → Cross-modal → Replay → Anomaly → Kinematic. Same input → same output, every time. No LLM cost."
+          />
+          <LayerCard
+            ord="C"
+            title="Honeynet"
+            tagline="Honeypot oracle"
+            to="/honeynet"
+            body="S(Vᵢ) = α·C + β·H − γ·P. Honest validators separate from lazy by ≥ 0.3 points. The H term catches what consensus can't."
+          />
+        </div>
       </section>
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }): JSX.Element {
+  return (
+    <div className="flex items-baseline justify-between gap-2 border-b border-dashed border-rule pb-3 last:border-0 last:pb-0">
+      <dt className="font-mono text-label uppercase text-subtext">{label}</dt>
+      <dd className="font-display text-title font-medium tabular text-ink">{value}</dd>
     </div>
   );
 }
@@ -112,14 +118,14 @@ function LayerCard({ ord, title, tagline, body, to }: LayerCardProps): JSX.Eleme
   return (
     <Link
       to={to}
-      className="group flex flex-col gap-3 bg-paper p-8 transition-colors duration-300 ease-out-quart hover:bg-surface"
+      className="group flex flex-col gap-4 bg-paper p-8 transition-colors duration-300 ease-out-quart hover:bg-surface"
     >
       <div className="flex items-baseline justify-between">
         <span className="font-mono text-label uppercase text-subtext">
           Layer {ord}
         </span>
-        <span className="font-mono text-label uppercase text-subtext transition-transform group-hover:translate-x-1">
-          ↗
+        <span className="font-mono text-label text-subtext transition-transform duration-200 group-hover:translate-x-1">
+          →
         </span>
       </div>
       <h2 className="font-display text-display-md font-medium text-ink">
@@ -128,7 +134,7 @@ function LayerCard({ ord, title, tagline, body, to }: LayerCardProps): JSX.Eleme
       <p className="font-mono text-small uppercase tracking-wide text-signal-deep">
         {tagline}
       </p>
-      <p className="mt-2 text-small text-subtext">{body}</p>
+      <p className="mt-auto text-small leading-relaxed text-subtext">{body}</p>
     </Link>
   );
 }
