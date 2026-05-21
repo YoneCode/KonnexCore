@@ -124,6 +124,8 @@ ignore = [
 # TYPE_CHECKING blocks — Request, AppState, etc. must stay at module
 # scope. The TCH rules don't apply.
 "api/**" = ["TCH001", "TCH002", "TCH003"]
+# data_loaders use Path and SensorSigner in runtime function signatures.
+"core/data_loaders/**" = ["TCH001", "TCH002", "TCH003", "PLR0913", "C901"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["core", "rootid", "detverify", "honeynet", "api"]
