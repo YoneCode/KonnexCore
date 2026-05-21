@@ -73,3 +73,4 @@ dashboard/node_modules/
 
 # Real sensor datasets — large; download per docs in tests/test_data_loaders.py
 data/
+docs/superpowers/
