@@ -341,6 +341,7 @@ class TestPipelineExitCriterion:
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.slow
 class TestLlmCompare:
     def test_disabled_returns_none(
         self,

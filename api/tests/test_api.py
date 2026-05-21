@@ -147,6 +147,7 @@ class TestIdentity:
 
 class TestVerify:
     @pytest.mark.slow
+    @pytest.mark.slow
     def test_full_stack_clean_returns_success(self, client: TestClient) -> None:
         r = client.post("/api/demo/full-stack", json={"scenario": "clean", "seed": 7})
         assert r.status_code == status.HTTP_200_OK, r.text
@@ -154,6 +155,7 @@ class TestVerify:
         assert body["scenario"] == "clean"
         assert body["detverify"]["score"]["verdict"] == "success"
 
+    @pytest.mark.slow
     @pytest.mark.slow
     def test_full_stack_attack_scenarios_fail(self, client: TestClient) -> None:
         for scenario in ("deepfake", "replay", "gps_spoof", "frame_skip", "torque_mismatch"):
@@ -163,6 +165,7 @@ class TestVerify:
             assert body["scenario"] == scenario
             assert body["detverify"]["score"]["verdict"] == "failure", body
 
+    @pytest.mark.slow
     def test_with_llm_compare_no_key_passthrough(self, client: TestClient) -> None:
         # Build a minimal-shape clean bundle via the demo, then route it
         # through /api/verify/with-llm-compare with enable_llm=True but
