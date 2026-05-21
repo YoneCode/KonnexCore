@@ -79,7 +79,7 @@ function StageTile({
           tone === "warning" && "text-signal-deep",
         )}
       >
-        {stage ? stage.detail : "—"}
+        {stage ? truncateDetail(stage.detail) : "—"}
       </p>
     </div>
   );
@@ -98,4 +98,18 @@ function Dot({ tone }: { tone: "idle" | "ok" | "warning" | "fail" }): JSX.Elemen
 function cascadeDelay(name: string): number {
   const index = _STAGE_NAMES.indexOf(name as (typeof _STAGE_NAMES)[number]);
   return Math.max(0, index) * 70;
+}
+
+const MAX_DETAIL_LEN = 80;
+
+function truncateDetail(detail: string): string {
+  // Collapse repetitive joint violations: "torque[0].joint[0]=99999... ; joint[1]= ... ; joint[6]="
+  // into a single summary like "7 joints exceed 320.0 N·m limit"
+  const jointMatch = detail.match(/torque\[\d+\]\.joint\[\d+\]=[\d.]+ exceeds \|limit\|=([\d.]+)/g);
+  if (jointMatch && jointMatch.length > 1) {
+    const limit = detail.match(/\|limit\|=([\d.]+)/)?.[1] ?? "320.0";
+    return `${jointMatch.length} joints exceed ${limit} N·m limit`;
+  }
+  if (detail.length <= MAX_DETAIL_LEN) return detail;
+  return detail.slice(0, MAX_DETAIL_LEN) + "…";
 }

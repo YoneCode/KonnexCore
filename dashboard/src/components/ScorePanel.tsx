@@ -77,11 +77,23 @@ export function ScorePanel({ score, animate }: Props): JSX.Element {
       </ul>
       {score.reasoning && (
         <p className="mt-4 border-t border-dashed border-rule pt-4 text-small text-subtext">
-          {score.reasoning}
+          {truncateReasoning(score.reasoning)}
         </p>
       )}
     </div>
   );
+}
+
+function truncateReasoning(text: string): string {
+  // Same joint-violation collapse as StageRow.
+  const jointMatch = text.match(/torque\[\d+\]\.joint\[\d+\]=[\d.]+ exceeds \|limit\|=([\d.]+)/g);
+  if (jointMatch && jointMatch.length > 1) {
+    const limit = text.match(/\|limit\|=([\d.]+)/)?.[1] ?? "320.0";
+    const prefix = text.split("torque[")[0] ?? "";
+    return `${prefix}${jointMatch.length} joints exceed ${limit} N·m limit`;
+  }
+  if (text.length <= 120) return text;
+  return text.slice(0, 120) + "…";
 }
 
 function verdictTone(v: ScoreVector["verdict"]): "ok" | "warn" | "fail" {
