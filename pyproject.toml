@@ -52,15 +52,13 @@ extend-exclude = [
     "dist",
     "dashboard",  # JS/TS — out of scope for ruff.
     "skills",
-    "skills-library",
-    "impeccable",
 ]
 
 [tool.ruff.lint]
 # Allow the Greek letters and unicode minus that appear in Konnex's
 # metascore formula verbatim (S(V_i) = α·C + β·H − γ·P). Suppressing
 # the per-symbol RUF003 noise rather than littering noqa comments
-# preserves spec fidelity (design spec Section 6).
+# preserves spec fidelity.
 allowed-confusables = ["α", "β", "γ", "−", "·", "≥", "≤", "×"]
 # Aggressive baseline; targeted ignores below.
 select = [
@@ -160,8 +158,6 @@ extend-exclude = '''
   | dist
   | dashboard
   | skills
-  | skills-library
-  | impeccable
 )/
 '''
 
@@ -183,9 +179,6 @@ exclude = [
     "build/",
     "dist/",
     "dashboard/",
-    "skills/",
-    "",
-    "",
 ]
 
 [[tool.mypy.overrides]]

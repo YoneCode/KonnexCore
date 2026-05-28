@@ -65,12 +65,11 @@ attestation_report.json
 .kb/
 
 # --- Local tooling (not shipped) ---
-skills/
-
-
 
 dashboard/node_modules/
 
 # Real sensor datasets — large; download per docs in tests/test_data_loaders.py
 data/
 docs/superpowers/
+.skills_local/
+.skills_library_local/

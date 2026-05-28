@@ -2,7 +2,7 @@
 
 These tests run against actual downloaded datasets. They are skipped
 (not failed) if the data directory is not present — this is the
-honest, design spec-compliant posture: we don't mock the data, and we
+honest posture: we don't mock the data, and we
 don't claim passes that didn't happen.
 
 Download instructions for missing datasets are printed in the skip reason.

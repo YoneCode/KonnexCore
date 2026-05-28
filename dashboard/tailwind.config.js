@@ -4,8 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // OKLCH values resolved to hex for Tailwind compat. Source of truth
-        // is design tokens — keep the OKLCH values in CSS variables.
+        // OKLCH values resolved to hex for Tailwind compat. Source of truth: design tokens in src/index.css.
         paper: "var(--color-paper)",
         surface: "var(--color-surface)",
         ink: "var(--color-ink)",

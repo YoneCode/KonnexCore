@@ -162,7 +162,7 @@ class ScoreVector(BaseModel):
     """Konnex AI Verifier output schema, exactly.
 
     Source: https://docs.konnex.world/supported-ai-models/verifier
-    Any divergence is a bug per design spec Section 6.
+    Any divergence is a bug.
     """
 
     model_config = ConfigDict(extra="forbid")

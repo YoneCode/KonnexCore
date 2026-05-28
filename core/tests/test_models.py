@@ -3,7 +3,7 @@
 These tests pin the JSON shape of every Pydantic model defined in
 spec Section 5. Any change to a field name, type, or constraint must
 be reflected in this file first (TDD) and motivated by an update to
-the build spec (design spec Section 8).
+the build spec.
 """
 
 from __future__ import annotations

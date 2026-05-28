@@ -62,9 +62,6 @@ EXCLUDES=(
     ".ruff_cache/"
     ".coverage"
     "htmlcov/"
-    ""
-    ""
-    "skills/"             # skills are reference-only on the VPS
     "dashboard/node_modules/"
     "bundle.json"
     ".env"

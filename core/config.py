@@ -1,7 +1,7 @@
 """Project-wide constants and runtime settings.
 
 This module is the single source of truth for magic numbers per the
-anti-slop rule in design spec Section 4. It also exposes a ``Settings``
+design rule (no magic numbers). It also exposes a ``Settings``
 class loaded from environment variables via pydantic-settings.
 
 Settings are fail-secure: missing required variables raise

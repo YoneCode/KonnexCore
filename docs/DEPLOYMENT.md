@@ -172,9 +172,6 @@ exercises the full RootID → DetVerify path under load.
 
 ## What's deliberately not deployed
 
-- `skills/`, ``, `` — agent reference material,
-  not runtime code. `deploy.sh` excludes them; the rsync excludes are
-  documented in the script.
 - Pytest test suites — they run in CI and locally; the VPS doesn't need
   them. (Re-running `pytest` on the VPS still works if you `cd` into the
   project and call `./venv/bin/pytest`.)
