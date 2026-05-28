@@ -51,7 +51,6 @@ data/bridge/
 .skills_local/
 .skills_library_local/
 _local_skills/
-.impeccable_local/
 
 # Build artifacts
 *.log
