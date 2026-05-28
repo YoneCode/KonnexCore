@@ -1,75 +1,65 @@
-# --- Python ---
-__pycache__/
-*.py[cod]
+
+*~
 *$py.class
-*.egg-info/
-*.egg
-.eggs/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+attestation_report.json
+build/
+# --- Build artefacts ---
+bundle.json
 .coverage
 .coverage.*
-htmlcov/
 coverage.xml
-.tox/
-.nox/
-.hypothesis/
-
-# --- Build artefacts ---
-build/
+dashboard/dist/
+dashboard/node_modules/
+dashboard/.vite/
+data/
+Desktop.ini
 dist/
-*.so
+docs/superpowers/
+.DS_Store
 *.dylib
-
-# --- Virtual environments ---
-venv/
-.venv/
+*.egg
+*.egg-info/
+.eggs/
+ehthumbs.db
+.env
 env/
-.env-venv/
 ENV/
-pip-log.txt
-pip-delete-this-directory.txt
-
+# --- Environment files (real secrets must never be committed) ---
+.env.*.local
+.env.local
+.env-venv/
+htmlcov/
+.hypothesis/
+.idea/
+# --- IDE / OS ---
+.kb/
+*.local
+_local_skills/
+# --- Local tooling (not shipped) ---
+*.log
+.mypy_cache/
 # --- Node / dashboard ---
 node_modules/
-dashboard/dist/
-dashboard/.vite/
-.pnpm-debug.log
+.nox/
 .npm/
-.yarn/
-
-# --- Environment files (real secrets must never be committed) ---
-.env
-.env.local
-.env.*.local
-*.local
-
-# --- IDE / OS ---
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# --- Project-local artefacts ---
-*.log
 *.pid
-bundle.json
-attestation_report.json
-
-.kb/
-
-# --- Local tooling (not shipped) ---
-
-dashboard/node_modules/
-
+pip-delete-this-directory.txt
+pip-log.txt
+.pnpm-debug.log
+# --- Project-local artefacts ---
+__pycache__/
+*.py[cod]
+.pytest_cache/
+# --- Python ---
 # Real sensor datasets — large; download per docs in tests/test_data_loaders.py
-data/
-docs/superpowers/
-.skills_local/
-.skills_library_local/
+.ruff_cache/
+*.so
+*.swo
+*.swp
+Thumbs.db
+.tox/
+.venv/
+venv/
+# --- Virtual environments ---
+.vscode/
+.yarn/
