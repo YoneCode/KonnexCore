@@ -16,7 +16,7 @@ Konnex validators score robotics workloads via a multi-layer metascore. Two of t
 | **B — DetVerify** | `detverify/` | Six deterministic stages (signature, temporal, cross-modal, replay, anomaly, kinematic). Same input produces the same Konnex `ScoreVector` every time. No LLM. No network call. |
 | **C — Honeynet** | `honeynet/` | Generates indistinguishable reference tasks with hidden ground truth. Computes `H(V_i)` per validator. Separates honest from lazy by ≥ 0.3 metascore points. |
 
-A React dashboard, a FastAPI backend exposing all three layers over HTTP, and a PyBullet-backed simulation engine round out the prototype.
+A React dashboard, a FastAPI backend exposing all three layers over HTTP, and a PyBullet-backed simulation engine round out the prototype. 
 
 ---
 
@@ -161,7 +161,7 @@ Real sensor data tested end-to-end: TUM RGB-D freiburg1_desk (11,818 IMU reading
 - Production hardware TEE — software simulation only (ARM PSA swap-in documented).
 - Mainnet integration — testnet wiring is Launch-tier scope.
 - Real robots — synthetic + recorded sensor data only.
-- Replacing Konnex's AI Verifier — we augment Layer 3 with the deterministic tier.
+- Replacing Konnex's AI Verifier — we augment Layer 3 with the deterministic tier. 
 
 ---
 
