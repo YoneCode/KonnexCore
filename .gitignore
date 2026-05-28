@@ -1,65 +1,59 @@
-
-*~
-*$py.class
-attestation_report.json
-build/
-# --- Build artefacts ---
-bundle.json
-.coverage
-.coverage.*
-coverage.xml
-dashboard/dist/
-dashboard/node_modules/
-dashboard/.vite/
-data/
-Desktop.ini
-dist/
-docs/superpowers/
-.DS_Store
-*.dylib
-*.egg
-*.egg-info/
-.eggs/
-ehthumbs.db
-.env
-env/
-ENV/
-# --- Environment files (real secrets must never be committed) ---
-.env.*.local
-.env.local
-.env-venv/
-htmlcov/
-.hypothesis/
-.idea/
-# --- IDE / OS ---
-.kb/
-*.local
-_local_skills/
-# --- Local tooling (not shipped) ---
-*.log
-.mypy_cache/
-# --- Node / dashboard ---
-node_modules/
-.nox/
-.npm/
-*.pid
-pip-delete-this-directory.txt
-pip-log.txt
-.pnpm-debug.log
-# --- Project-local artefacts ---
+# Python
 __pycache__/
 *.py[cod]
-.pytest_cache/
-# --- Python ---
-# Real sensor datasets — large; download per docs in tests/test_data_loaders.py
-.ruff_cache/
+*$py.class
 *.so
-*.swo
-*.swp
-Thumbs.db
-.tox/
-.venv/
+.Python
 venv/
-# --- Virtual environments ---
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+
+# Node
+node_modules/
+.pnp
+.pnp.js
+dist-ssr
+*.local
+
+# Editors
 .vscode/
-.yarn/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Data (large datasets)
+data/tum/
+data/euroc/
+data/bridge/
+
+# Local-only directories (not part of project)
+.skills_local/
+.skills_library_local/
+_local_skills/
+.impeccable_local/
+
+# Build artifacts
+*.log
+*.tmp
+.hypothesis/
